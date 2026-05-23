@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>المدرسين - أكاديمية النخبة</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script>tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{cairo:['Cairo','sans-serif']}}}}</script>
+</head>
+<body class="font-cairo bg-white dark:bg-gray-950 text-gray-900 dark:text-white transition-colors duration-300">
+<div id="loading-screen" class="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900">
+  <div class="w-12 h-12 mx-auto relative"><div class="absolute inset-1 rounded-full border-4 border-t-purple-400 border-r-transparent border-b-transparent border-l-transparent animate-spin"></div></div>
+</div>
+<div id="toast-container" class="fixed top-4 left-4 z-[9998] flex flex-col gap-2"></div>
+
+<nav id="navbar" class="fixed top-0 right-0 left-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-20">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shadow-lg">
+          <i class="fas fa-graduation-cap text-white text-lg"></i>
+        </div>
+        <div><span class="text-lg font-black text-gray-900 dark:text-white">أكاديمية</span><span class="text-lg font-black bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent"> النخبة</span></div>
+      </a>
+      <div class="hidden lg:flex items-center gap-1">
+        <a href="index.html" class="nav-link">الرئيسية</a>
+        <a href="courses.html" class="nav-link">الكورسات</a>
+        <a href="teachers.html" class="nav-link active">المدرسين</a>
+        <a href="exams.html" class="nav-link">الامتحانات</a>
+        <a href="library.html" class="nav-link">المكتبة</a>
+        <a href="contact.html" class="nav-link">تواصل معنا</a>
+      </div>
+      <div class="hidden lg:flex items-center gap-3">
+        <button id="theme-toggle" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:scale-110 transition-transform">
+          <i class="fas fa-moon text-gray-600 dark:text-yellow-400 dark:hidden"></i>
+          <i class="fas fa-sun text-yellow-400 hidden dark:block"></i>
+        </button>
+        <a href="dashboard.html" class="btn-secondary text-sm">لوحة الطالب</a>
+        <a href="#" onclick="showToast('سيتم التواصل معك قريباً!','success')" class="btn-primary text-sm">سجل الآن</a>
+      </div>
+      <div class="flex lg:hidden items-center gap-2">
+        <button id="theme-toggle-mobile" class="w-9 h-9 rounded-lg glass-card flex items-center justify-center">
+          <i class="fas fa-moon text-gray-600 dark:text-yellow-400 dark:hidden text-sm"></i>
+          <i class="fas fa-sun text-yellow-400 hidden dark:block text-sm"></i>
+        </button>
+        <button id="mobile-menu-btn" class="w-9 h-9 rounded-lg glass-card flex items-center justify-center">
+          <i class="fas fa-bars text-gray-700 dark:text-white text-sm"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden lg:hidden glass-card mx-4 mb-4 rounded-2xl overflow-hidden">
+    <div class="p-4 flex flex-col gap-1">
+      <a href="index.html" class="mobile-nav-link">الرئيسية</a>
+      <a href="courses.html" class="mobile-nav-link">الكورسات</a>
+      <a href="teachers.html" class="mobile-nav-link">المدرسين</a>
+      <a href="exams.html" class="mobile-nav-link">الامتحانات</a>
+      <a href="library.html" class="mobile-nav-link">المكتبة</a>
+      <a href="contact.html" class="mobile-nav-link">تواصل معنا</a>
+    </div>
+  </div>
+</nav>
+
+<section class="pt-28 pb-12 relative overflow-hidden">
+  <div class="hero-bg absolute inset-0"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <span class="section-badge" data-aos="fade-up">فريقنا التعليمي</span>
+    <h1 class="text-4xl lg:text-5xl font-black mt-3 mb-4" data-aos="fade-up" data-aos-delay="50">
+      <span class="gradient-text">نخبة من أفضل المدرسين</span>
+    </h1>
+    <p class="text-gray-600 dark:text-gray-300 text-lg max-w-xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+      مدرسون معتمدون بخبرات تزيد عن 10 سنوات في التدريس والتأهيل للثانوية العامة
+    </p>
+  </div>
+</section>
+
+<section class="py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="teachers-grid"></div>
+  </div>
+</section>
+
+<footer class="bg-gray-900 dark:bg-gray-950 text-white py-8 text-center text-sm text-gray-500">
+  © 2025 أكاديمية النخبة. جميع الحقوق محفوظة.
+</footer>
+<script src="js/main.js"></script>
+<script src="js/teachers.js"></script>
+</body>
+</html>

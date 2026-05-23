@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تواصل معنا - أكاديمية النخبة</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script>tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{cairo:['Cairo','sans-serif']}}}}</script>
+</head>
+<body class="font-cairo bg-white dark:bg-gray-950 text-gray-900 dark:text-white transition-colors duration-300">
+<div id="loading-screen" class="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900">
+  <div class="w-12 h-12 mx-auto relative"><div class="absolute inset-1 rounded-full border-4 border-t-purple-400 border-r-transparent border-b-transparent border-l-transparent animate-spin"></div></div>
+</div>
+<div id="toast-container" class="fixed top-4 left-4 z-[9998] flex flex-col gap-2"></div>
+
+<nav id="navbar" class="fixed top-0 right-0 left-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-20">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shadow-lg"><i class="fas fa-graduation-cap text-white text-lg"></i></div>
+        <div><span class="text-lg font-black text-gray-900 dark:text-white">أكاديمية</span><span class="text-lg font-black bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent"> النخبة</span></div>
+      </a>
+      <div class="hidden lg:flex items-center gap-1">
+        <a href="index.html" class="nav-link">الرئيسية</a>
+        <a href="courses.html" class="nav-link">الكورسات</a>
+        <a href="teachers.html" class="nav-link">المدرسين</a>
+        <a href="exams.html" class="nav-link">الامتحانات</a>
+        <a href="library.html" class="nav-link">المكتبة</a>
+        <a href="contact.html" class="nav-link active">تواصل معنا</a>
+      </div>
+      <div class="hidden lg:flex items-center gap-3">
+        <button id="theme-toggle" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:scale-110 transition-transform">
+          <i class="fas fa-moon text-gray-600 dark:text-yellow-400 dark:hidden"></i>
+          <i class="fas fa-sun text-yellow-400 hidden dark:block"></i>
+        </button>
+        <a href="dashboard.html" class="btn-secondary text-sm">لوحة الطالب</a>
+        <a href="#" onclick="showToast('سيتم التواصل معك قريباً!','success')" class="btn-primary text-sm">سجل الآن</a>
+      </div>
+      <div class="flex lg:hidden items-center gap-2">
+        <button id="theme-toggle-mobile" class="w-9 h-9 rounded-lg glass-card flex items-center justify-center">
+          <i class="fas fa-moon text-gray-600 dark:text-yellow-400 dark:hidden text-sm"></i>
+          <i class="fas fa-sun text-yellow-400 hidden dark:block text-sm"></i>
+        </button>
+        <button id="mobile-menu-btn" class="w-9 h-9 rounded-lg glass-card flex items-center justify-center">
+          <i class="fas fa-bars text-gray-700 dark:text-white text-sm"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden lg:hidden glass-card mx-4 mb-4 rounded-2xl overflow-hidden">
+    <div class="p-4 flex flex-col gap-1">
+      <a href="index.html" class="mobile-nav-link">الرئيسية</a>
+      <a href="courses.html" class="mobile-nav-link">الكورسات</a>
+      <a href="teachers.html" class="mobile-nav-link">المدرسين</a>
+      <a href="exams.html" class="mobile-nav-link">الامتحانات</a>
+      <a href="library.html" class="mobile-nav-link">المكتبة</a>
+      <a href="contact.html" class="mobile-nav-link">تواصل معنا</a>
+    </div>
+  </div>
+</nav>
+
+<section class="pt-28 pb-12 relative overflow-hidden">
+  <div class="hero-bg absolute inset-0"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <span class="section-badge">تواصل معنا</span>
+    <h1 class="text-4xl lg:text-5xl font-black mt-3 mb-4 gradient-text">نحن هنا لمساعدتك</h1>
+    <p class="text-gray-600 dark:text-gray-300 text-lg max-w-xl mx-auto">تواصل معنا في أي وقت وسنرد عليك في أقرب وقت ممكن</p>
+  </div>
+</section>
+
+<!-- Contact Info Cards -->
+<section class="py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+      <div class="feature-card text-center" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-icon bg-purple-100 dark:bg-purple-900/30 text-purple-600 mx-auto mb-3"><i class="fas fa-phone"></i></div>
+        <h3 class="font-bold text-gray-900 dark:text-white mb-1">اتصل بنا</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">01000000000</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">01100000000</p>
+      </div>
+      <div class="feature-card text-center" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-icon bg-green-100 dark:bg-green-900/30 text-green-600 mx-auto mb-3"><i class="fab fa-whatsapp"></i></div>
+        <h3 class="font-bold text-gray-900 dark:text-white mb-1">واتساب</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">متاح 24/7</p>
+        <a href="https://wa.me/201000000000" class="text-sm text-green-600 font-bold hover:underline">ابدأ المحادثة</a>
+      </div>
+      <div class="feature-card text-center" data-aos="fade-up" data-aos-delay="200">
+        <div class="feature-icon bg-blue-100 dark:bg-blue-900/30 text-blue-600 mx-auto mb-3"><i class="fas fa-envelope"></i></div>
+        <h3 class="font-bold text-gray-900 dark:text-white mb-1">البريد الإلكتروني</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">info@elitacademy.com</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">support@elitacademy.com</p>
+      </div>
+      <div class="feature-card text-center" data-aos="fade-up" data-aos-delay="300">
+        <div class="feature-icon bg-red-100 dark:bg-red-900/30 text-red-600 mx-auto mb-3"><i class="fas fa-map-marker-alt"></i></div>
+        <h3 class="font-bold text-gray-900 dark:text-white mb-1">العنوان</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">القاهرة، مصر</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">3 فروع رئيسية</p>
+      </div>
+    </div>
+
+    <!-- Contact Form + Map -->
+    <div class="grid lg:grid-cols-2 gap-8 mb-12">
+      <!-- Form -->
+      <div class="feature-card" data-aos="fade-right">
+        <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-6">أرسل لنا رسالة</h2>
+        <form onsubmit="submitContact(event)" class="space-y-4">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block">الاسم الكامل</label>
+              <input class="form-input" placeholder="أحمد محمد" required/>
+            </div>
+            <div>
+              <label class="text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block">رقم الهاتف</label>
+              <input class="form-input" placeholder="01000000000" required/>
+            </div>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block">البريد الإلكتروني</label>
+            <input type="email" class="form-input" placeholder="ahmed@example.com"/>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block">الموضوع</label>
+            <select class="form-input">
+              <option>الاستفسار عن التسجيل</option>
+              <option>الاستفسار عن الأسعار</option>
+              <option>مشكلة تقنية</option>
+              <option>اقتراح أو شكوى</option>
+              <option>أخرى</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-gray-500 dark:text-gray-400 mb-1 block">الرسالة</label>
+            <textarea class="form-input" rows="4" placeholder="اكتب رسالتك هنا..." required></textarea>
+          </div>
+          <button type="submit" class="btn-primary w-full py-3">
+            <i class="fas fa-paper-plane ml-2"></i> إرسال الرسالة
+          </button>
+        </form>
+      </div>
+      <!-- Map -->
+      <div data-aos="fade-left">
+        <div class="feature-card mb-4">
+          <h3 class="font-bold text-gray-900 dark:text-white mb-4">موقعنا على الخريطة</h3>
+          <div class="rounded-2xl overflow-hidden h-64 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3453.5!2d31.2357!3d30.0444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAyJzM5LjgiTiAzMcKwMTQnMDguNSJF!5e0!3m2!1sar!2seg!4v1234567890" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" class="rounded-2xl"></iframe>
+          </div>
+        </div>
+        <!-- WhatsApp CTA -->
+        <a href="https://wa.me/201000000000" class="flex items-center gap-4 p-5 rounded-2xl bg-green-500 hover:bg-green-600 transition-colors text-white group">
+          <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <div>
+            <div class="font-black text-lg">تواصل عبر واتساب</div>
+            <div class="text-green-100 text-sm">رد فوري • متاح 24/7</div>
+          </div>
+          <i class="fas fa-arrow-left mr-auto text-xl"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Branches -->
+    <div data-aos="fade-up">
+      <div class="section-header mb-8">
+        <span class="section-badge">فروعنا</span>
+        <h2 class="section-title">فروع أكاديمية النخبة</h2>
+      </div>
+      <div class="grid sm:grid-cols-3 gap-6">
+        <div class="feature-card text-center">
+          <div class="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 text-purple-600 flex items-center justify-center mx-auto mb-3 text-xl"><i class="fas fa-building"></i></div>
+          <h3 class="font-bold text-gray-900 dark:text-white mb-2">فرع مدينة نصر</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">شارع عباس العقاد، مدينة نصر، القاهرة</p>
+          <p class="text-sm text-purple-600 dark:text-purple-400 font-bold">01000000001</p>
+          <div class="mt-2 text-xs text-gray-400">السبت - الخميس: 9ص - 10م</div>
+        </div>
+        <div class="feature-card text-center">
+          <div class="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center mx-auto mb-3 text-xl"><i class="fas fa-building"></i></div>
+          <h3 class="font-bold text-gray-900 dark:text-white mb-2">فرع المهندسين</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">شارع جامعة الدول العربية، المهندسين، الجيزة</p>
+          <p class="text-sm text-blue-600 dark:text-blue-400 font-bold">01000000002</p>
+          <div class="mt-2 text-xs text-gray-400">السبت - الخميس: 9ص - 10م</div>
+        </div>
+        <div class="feature-card text-center">
+          <div class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center mx-auto mb-3 text-xl"><i class="fas fa-building"></i></div>
+          <h3 class="font-bold text-gray-900 dark:text-white mb-2">فرع التجمع الخامس</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">التجمع الخامس، القاهرة الجديدة</p>
+          <p class="text-sm text-green-600 dark:text-green-400 font-bold">01000000003</p>
+          <div class="mt-2 text-xs text-gray-400">السبت - الخميس: 9ص - 10م</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social Links -->
+<section class="py-12 bg-gray-50 dark:bg-gray-900/50">
+  <div class="max-w-3xl mx-auto px-4 text-center">
+    <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-6">تابعنا على السوشيال ميديا</h2>
+    <div class="flex justify-center gap-4 flex-wrap">
+      <a href="#" class="flex items-center gap-3 px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all hover:scale-105 shadow-lg">
+        <i class="fab fa-facebook-f text-xl"></i> فيسبوك
+      </a>
+      <a href="#" class="flex items-center gap-3 px-6 py-3 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold transition-all hover:scale-105 shadow-lg">
+        <i class="fab fa-youtube text-xl"></i> يوتيوب
+      </a>
+      <a href="#" class="flex items-center gap-3 px-6 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-bold transition-all hover:scale-105 shadow-lg">
+        <i class="fab fa-instagram text-xl"></i> إنستجرام
+      </a>
+      <a href="#" class="flex items-center gap-3 px-6 py-3 rounded-2xl bg-black hover:bg-gray-900 text-white font-bold transition-all hover:scale-105 shadow-lg">
+        <i class="fab fa-tiktok text-xl"></i> تيك توك
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="bg-gray-900 dark:bg-gray-950 text-white py-8 text-center text-sm text-gray-500">
+  © 2025 أكاديمية النخبة. جميع الحقوق محفوظة.
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+function submitContact(e) {
+  e.preventDefault();
+  showToast('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 'success', 4000);
+  e.target.reset();
+}
+</script>
+</body>
+</html>

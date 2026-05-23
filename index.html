@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>أكاديمية النخبة - مركز تعليمي متميز</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { cairo: ['Cairo', 'sans-serif'], tajawal: ['Tajawal', 'sans-serif'] },
+          colors: {
+            primary: { 50:'#f5f3ff',100:'#ede9fe',200:'#ddd6fe',300:'#c4b5fd',400:'#a78bfa',500:'#8b5cf6',600:'#7c3aed',700:'#6d28d9',800:'#5b21b6',900:'#4c1d95' },
+            accent: { 400:'#38bdf8',500:'#0ea5e9',600:'#0284c7' }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-cairo bg-white dark:bg-gray-950 text-gray-900 dark:text-white transition-colors duration-300">
+
+<!-- Loading Screen -->
+<div id="loading-screen" class="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900">
+  <div class="text-center">
+    <div class="w-20 h-20 mx-auto mb-6 relative">
+      <div class="absolute inset-0 rounded-full border-4 border-purple-300/30 animate-ping"></div>
+      <div class="absolute inset-2 rounded-full border-4 border-t-purple-400 border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
+      <div class="absolute inset-4 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
+        <i class="fas fa-graduation-cap text-white text-xl"></i>
+      </div>
+    </div>
+    <h2 class="text-white text-2xl font-bold mb-2">أكاديمية النخبة</h2>
+    <p class="text-purple-300 text-sm">جاري التحميل...</p>
+    <div class="mt-4 w-48 mx-auto h-1 bg-white/20 rounded-full overflow-hidden">
+      <div id="loading-bar" class="h-full bg-gradient-to-r from-purple-400 to-blue-400 rounded-full transition-all duration-300" style="width:0%"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toast-container" class="fixed top-4 left-4 z-[9998] flex flex-col gap-2"></div>
+
+<!-- Navbar -->
+<nav id="navbar" class="fixed top-0 right-0 left-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-20">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+          <i class="fas fa-graduation-cap text-white text-lg"></i>
+        </div>
+        <div>
+          <span class="text-lg font-black text-gray-900 dark:text-white">أكاديمية</span>
+          <span class="text-lg font-black bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent"> النخبة</span>
+        </div>
+      </a>
+      <!-- Desktop Nav -->
+      <div class="hidden lg:flex items-center gap-1">
+        <a href="index.html" class="nav-link active">الرئيسية</a>
+        <a href="courses.html" class="nav-link">الكورسات</a>
+        <a href="teachers.html" class="nav-link">المدرسين</a>
+        <a href="exams.html" class="nav-link">الامتحانات</a>
+        <a href="library.html" class="nav-link">المكتبة</a>
+        <a href="contact.html" class="nav-link">تواصل معنا</a>
+      </div>
+      <!-- Actions -->
+      <div class="hidden lg:flex items-center gap-3">
+        <button id="theme-toggle" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:scale-110 transition-transform">
+          <i class="fas fa-moon text-gray-600 dark:text-yellow-400 dark:hidden"></i>
+          <i class="fas fa-sun text-yellow-400 hidden dark:block"></i>
+        </button>
+        <a href="dashboard.html" class="btn-secondary text-sm">لوحة الطالب</a>
+        <a href="admin.html" class="btn-primary text-sm">ابدأ الآن</a>
+      </div>
+      <!-- Mobile Menu Button -->
+      <div class="flex lg:hidden items-center gap-2">
+        <button id="theme-toggle-mobile" class="w-9 h-9 rounded-lg glass-card flex items-center justify-center">
+          <i class="fas fa-moon text-gray-600 dark:text-yellow-400 dark:hidden text-sm"></i>
+          <i class="fas fa-sun text-yellow-400 hidden dark:block text-sm"></i>
+        </button>
+        <button id="mobile-menu-btn" class="w-9 h-9 rounded-lg glass-card flex items-center justify-center">
+          <i class="fas fa-bars text-gray-700 dark:text-white text-sm"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden lg:hidden glass-card mx-4 mb-4 rounded-2xl overflow-hidden">
+    <div class="p-4 flex flex-col gap-1">
+      <a href="index.html" class="mobile-nav-link">الرئيسية</a>
+      <a href="courses.html" class="mobile-nav-link">الكورسات</a>
+      <a href="teachers.html" class="mobile-nav-link">المدرسين</a>
+      <a href="exams.html" class="mobile-nav-link">الامتحانات</a>
+      <a href="library.html" class="mobile-nav-link">المكتبة</a>
+      <a href="contact.html" class="mobile-nav-link">تواصل معنا</a>
+      <div class="flex gap-2 mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+        <a href="dashboard.html" class="btn-secondary text-sm flex-1 text-center">لوحة الطالب</a>
+        <a href="admin.html" class="btn-primary text-sm flex-1 text-center">ابدأ الآن</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center overflow-hidden pt-20">
+  <div class="hero-bg absolute inset-0"></div>
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 grid lg:grid-cols-2 gap-12 items-center">
+    <div class="text-center lg:text-right" data-aos="fade-right">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm font-medium text-purple-600 dark:text-purple-400 mb-6 animate-bounce-slow">
+        <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+        التسجيل مفتوح للفصل الدراسي الجديد 2025
+      </div>
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6">
+        <span class="text-gray-900 dark:text-white">مستقبلك يبدأ</span><br/>
+        <span class="gradient-text">من هنا</span>
+      </h1>
+      <p class="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
+        أكاديمية النخبة — المنصة التعليمية الأولى لطلاب المرحلة الثانوية في مصر. تعلّم من أفضل المدرسين، وحقق أعلى الدرجات.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+        <a href="courses.html" class="btn-primary text-base px-8 py-4 group">
+          استعرض الكورسات
+          <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
+        </a>
+        <button onclick="showToast('سيتم التواصل معك قريباً!','success')" class="btn-secondary text-base px-8 py-4">
+          <i class="fas fa-play ml-2 text-purple-500"></i>
+          شاهد الفيديو التعريفي
+        </button>
+      </div>
+      <div class="flex items-center gap-6 mt-10 justify-center lg:justify-start">
+        <div class="flex -space-x-2 space-x-reverse">
+          <img src="https://i.pravatar.cc/40?img=1" class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 object-cover" alt=""/>
+          <img src="https://i.pravatar.cc/40?img=2" class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 object-cover" alt=""/>
+          <img src="https://i.pravatar.cc/40?img=3" class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 object-cover" alt=""/>
+          <img src="https://i.pravatar.cc/40?img=4" class="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 object-cover" alt=""/>
+        </div>
+        <div>
+          <div class="flex text-yellow-400 text-sm">★★★★★</div>
+          <p class="text-sm text-gray-500 dark:text-gray-400">+5,000 طالب سعيد</p>
+        </div>
+      </div>
+    </div>
+    <div class="relative" data-aos="fade-left">
+      <div class="relative z-10">
+        <div class="glass-card rounded-3xl p-6 shadow-2xl">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-sm font-semibold text-gray-500 dark:text-gray-400">تقدمك الأسبوعي</span>
+            <span class="text-xs px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">+12%</span>
+          </div>
+          <canvas id="heroChart" height="120"></canvas>
+          <div class="grid grid-cols-3 gap-3 mt-4">
+            <div class="text-center p-3 rounded-xl bg-purple-50 dark:bg-purple-900/20">
+              <div class="text-xl font-black text-purple-600">87%</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">الحضور</div>
+            </div>
+            <div class="text-center p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20">
+              <div class="text-xl font-black text-blue-600">24</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">درس مكتمل</div>
+            </div>
+            <div class="text-center p-3 rounded-xl bg-green-50 dark:bg-green-900/20">
+              <div class="text-xl font-black text-green-600">95</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">أعلى درجة</div>
+            </div>
+          </div>
+        </div>
+        <!-- Floating cards -->
+        <div class="absolute -top-6 -right-6 glass-card rounded-2xl p-3 shadow-xl animate-float">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
+              <i class="fas fa-trophy text-white text-xs"></i>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-gray-800 dark:text-white">أحمد محمد</div>
+              <div class="text-xs text-gray-500">حصل على 100/100</div>
+            </div>
+          </div>
+        </div>
+        <div class="absolute -bottom-6 -left-6 glass-card rounded-2xl p-3 shadow-xl animate-float-delay">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center">
+              <i class="fas fa-book text-white text-xs"></i>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-gray-800 dark:text-white">درس جديد</div>
+              <div class="text-xs text-gray-500">الرياضيات - التفاضل</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="stat-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="stat-icon bg-purple-100 dark:bg-purple-900/30 text-purple-600">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-number" data-target="5000">0</div>
+        <div class="stat-label">طالب مسجل</div>
+      </div>
+      <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="stat-icon bg-blue-100 dark:bg-blue-900/30 text-blue-600">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <div class="stat-number" data-target="45">0</div>
+        <div class="stat-label">مدرس متخصص</div>
+      </div>
+      <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="stat-icon bg-green-100 dark:bg-green-900/30 text-green-600">
+          <i class="fas fa-book-open"></i>
+        </div>
+        <div class="stat-number" data-target="120">0</div>
+        <div class="stat-label">كورس متاح</div>
+      </div>
+      <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="stat-icon bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="stat-number" data-target="98">0</div>
+        <div class="stat-label">% نسبة النجاح</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Subjects Section -->
+<section class="py-20 bg-gray-50 dark:bg-gray-900/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-badge">المواد الدراسية</span>
+      <h2 class="section-title">كل المواد في مكان واحد</h2>
+      <p class="section-desc">نغطي جميع مواد الثانوية العامة بأعلى مستوى من الجودة</p>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-12">
+      <a href="courses.html" class="subject-card" data-aos="zoom-in" data-aos-delay="0">
+        <div class="subject-icon" style="background: linear-gradient(135deg,#8b5cf6,#6d28d9)">
+          <i class="fas fa-square-root-alt"></i>
+        </div>
+        <span>الرياضيات</span>
+      </a>
+      <a href="courses.html" class="subject-card" data-aos="zoom-in" data-aos-delay="50">
+        <div class="subject-icon" style="background: linear-gradient(135deg,#0ea5e9,#0284c7)">
+          <i class="fas fa-atom"></i>
+        </div>
+        <span>الفيزياء</span>
+      </a>
+      <a href="courses.html" class="subject-card" data-aos="zoom-in" data-aos-delay="100">
+        <div class="subject-icon" style="background: linear-gradient(135deg,#10b981,#059669)">
+          <i class="fas fa-flask"></i>
+        </div>
+        <span>الكيمياء</span>
+      </a>
+      <a href="courses.html" class="subject-card" data-aos="zoom-in" data-aos-delay="150">
+        <div class="subject-icon" style="background: linear-gradient(135deg,#f59e0b,#d97706)">
+          <i class="fas fa-dna"></i>
+        </div>
+        <span>الأحياء</span>
+      </a>
+      <a href="courses.html" class="subject-card" data-aos="zoom-in" data-aos-delay="200">
+        <div class="subject-icon" style="background: linear-gradient(135deg,#ef4444,#dc2626)">
+          <i class="fas fa-language"></i>
+        </div>
+        <span>اللغة العربية</span>
+      </a>
+      <a href="courses.html" class="subject-card" data-aos="zoom-in" data-aos-delay="250">
+        <div class="subject-icon" style="background: linear-gradient(135deg,#ec4899,#db2777)">
+          <i class="fas fa-globe"></i>
+        </div>
+        <span>اللغة الإنجليزية</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-badge">لماذا نحن؟</span>
+      <h2 class="section-title">تجربة تعليمية لا مثيل لها</h2>
+      <p class="section-desc">نقدم أفضل تجربة تعليمية بأحدث التقنيات وأمهر المدرسين</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="feature-icon bg-purple-100 dark:bg-purple-900/30 text-purple-600">
+          <i class="fas fa-video"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2">حصص أونلاين مباشرة</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">حضور الحصص مباشرة مع المدرس والتفاعل الفوري والأسئلة في الوقت الحقيقي</p>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="feature-icon bg-blue-100 dark:bg-blue-900/30 text-blue-600">
+          <i class="fas fa-file-pdf"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2">مواد تعليمية شاملة</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">ملازم PDF، فيديوهات مسجلة، وأوراق عمل لكل درس يمكن تحميلها في أي وقت</p>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="feature-icon bg-green-100 dark:bg-green-900/30 text-green-600">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2">متابعة التقدم</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">تقارير تفصيلية لأداء الطالب ومتابعة مستمرة من المدرس وولي الأمر</p>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="feature-icon bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600">
+          <i class="fas fa-clipboard-check"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2">امتحانات تجريبية</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">امتحانات أونلاين بنظام الثانوية العامة مع تصحيح فوري وتحليل الأخطاء</p>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+        <div class="feature-icon bg-red-100 dark:bg-red-900/30 text-red-600">
+          <i class="fas fa-headset"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2">دعم 24/7</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">فريق دعم متاح على مدار الساعة للإجابة على استفسارات الطلاب وأولياء الأمور</p>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+        <div class="feature-icon bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600">
+          <i class="fas fa-mobile-alt"></i>
+        </div>
+        <h3 class="text-lg font-bold mb-2">تطبيق موبايل</h3>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">تعلم في أي مكان وأي وقت من خلال تطبيقنا المتاح على iOS وAndroid</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teachers Section -->
+<section class="py-20 bg-gray-50 dark:bg-gray-900/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-badge">فريقنا التعليمي</span>
+      <h2 class="section-title">نخبة من أفضل المدرسين</h2>
+      <p class="section-desc">مدرسون معتمدون بخبرات تزيد عن 10 سنوات في التدريس</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+      <div class="teacher-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="teacher-img-wrap">
+          <img src="https://i.pravatar.cc/200?img=11" alt="أ. محمد السيد" class="teacher-img"/>
+          <div class="teacher-badge">رياضيات</div>
+        </div>
+        <div class="p-4 text-center">
+          <h3 class="font-bold text-gray-900 dark:text-white">أ. محمد السيد</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">خبرة 15 سنة</p>
+          <div class="flex justify-center text-yellow-400 text-xs mt-2">★★★★★</div>
+          <div class="flex justify-center gap-3 mt-3">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="teacher-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="teacher-img-wrap">
+          <img src="https://i.pravatar.cc/200?img=12" alt="أ. سارة أحمد" class="teacher-img"/>
+          <div class="teacher-badge" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">فيزياء</div>
+        </div>
+        <div class="p-4 text-center">
+          <h3 class="font-bold text-gray-900 dark:text-white">أ. سارة أحمد</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">خبرة 12 سنة</p>
+          <div class="flex justify-center text-yellow-400 text-xs mt-2">★★★★★</div>
+          <div class="flex justify-center gap-3 mt-3">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="teacher-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="teacher-img-wrap">
+          <img src="https://i.pravatar.cc/200?img=13" alt="أ. خالد عمر" class="teacher-img"/>
+          <div class="teacher-badge" style="background:linear-gradient(135deg,#10b981,#059669)">كيمياء</div>
+        </div>
+        <div class="p-4 text-center">
+          <h3 class="font-bold text-gray-900 dark:text-white">أ. خالد عمر</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">خبرة 10 سنوات</p>
+          <div class="flex justify-center text-yellow-400 text-xs mt-2">★★★★☆</div>
+          <div class="flex justify-center gap-3 mt-3">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="teacher-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="teacher-img-wrap">
+          <img src="https://i.pravatar.cc/200?img=14" alt="أ. منى حسن" class="teacher-img"/>
+          <div class="teacher-badge" style="background:linear-gradient(135deg,#f59e0b,#d97706)">أحياء</div>
+        </div>
+        <div class="p-4 text-center">
+          <h3 class="font-bold text-gray-900 dark:text-white">أ. منى حسن</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">خبرة 8 سنوات</p>
+          <div class="flex justify-center text-yellow-400 text-xs mt-2">★★★★★</div>
+          <div class="flex justify-center gap-3 mt-3">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-10">
+      <a href="teachers.html" class="btn-secondary">عرض جميع المدرسين <i class="fas fa-arrow-left mr-2"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-badge">آراء الطلاب</span>
+      <h2 class="section-title">ماذا يقول طلابنا؟</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6 mt-12">
+      <div class="testimonial-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="flex text-yellow-400 text-sm mb-3">★★★★★</div>
+        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">"أكاديمية النخبة غيّرت مستواي تماماً. حصلت على 98% في الرياضيات بعد ما كنت بحصل على 60%. شكراً للأستاذ محمد!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://i.pravatar.cc/40?img=5" class="w-10 h-10 rounded-full object-cover" alt=""/>
+          <div>
+            <div class="font-bold text-sm text-gray-900 dark:text-white">أحمد علي</div>
+            <div class="text-xs text-gray-500">الصف الثالث الثانوي</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="flex text-yellow-400 text-sm mb-3">★★★★★</div>
+        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">"المنصة سهلة الاستخدام جداً والمواد التعليمية ممتازة. الامتحانات التجريبية ساعدتني أتعود على نظام الامتحان الحقيقي."</p>
+        <div class="flex items-center gap-3">
+          <img src="https://i.pravatar.cc/40?img=6" class="w-10 h-10 rounded-full object-cover" alt=""/>
+          <div>
+            <div class="font-bold text-sm text-gray-900 dark:text-white">نور محمد</div>
+            <div class="text-xs text-gray-500">الصف الثاني الثانوي</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="flex text-yellow-400 text-sm mb-3">★★★★★</div>
+        <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">"أفضل استثمار عملته في حياتي. المدرسين محترفين جداً والشرح واضح ومبسط. نتيجتي في الثانوية كانت 95%!"</p>
+        <div class="flex items-center gap-3">
+          <img src="https://i.pravatar.cc/40?img=7" class="w-10 h-10 rounded-full object-cover" alt=""/>
+          <div>
+            <div class="font-bold text-sm text-gray-900 dark:text-white">يوسف حسام</div>
+            <div class="text-xs text-gray-500">خريج 2024</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section class="py-20 bg-gray-50 dark:bg-gray-900/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-badge">الأسعار</span>
+      <h2 class="section-title">خطط مناسبة للجميع</h2>
+      <p class="section-desc">اختر الخطة المناسبة لك وابدأ رحلتك التعليمية اليوم</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6 mt-12">
+      <div class="pricing-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="pricing-header">
+          <h3 class="text-lg font-bold mb-1">الأساسية</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400">للطلاب المبتدئين</p>
+          <div class="pricing-price">
+            <span class="text-4xl font-black">299</span>
+            <span class="text-gray-500 text-sm">جنيه / شهر</span>
+          </div>
+        </div>
+        <ul class="pricing-features">
+          <li><i class="fas fa-check text-green-500 ml-2"></i>مادة واحدة</li>
+          <li><i class="fas fa-check text-green-500 ml-2"></i>4 حصص أسبوعياً</li>
+          <li><i class="fas fa-check text-green-500 ml-2"></i>ملازم PDF</li>
+          <li><i class="fas fa-times text-red-400 ml-2"></i>امتحانات تجريبية</li>
+          <li><i class="fas fa-times text-red-400 ml-2"></i>دعم مباشر</li>
+        </ul>
+        <button onclick="showToast('تم إرسال طلبك بنجاح!','success')" class="btn-secondary w-full mt-6">اشترك الآن</button>
+      </div>
+      <div class="pricing-card pricing-featured" data-aos="fade-up" data-aos-delay="100">
+        <div class="pricing-popular-badge">الأكثر شيوعاً</div>
+        <div class="pricing-header">
+          <h3 class="text-lg font-bold mb-1 text-white">المتقدمة</h3>
+          <p class="text-sm text-purple-200">للطلاب الجادين</p>
+          <div class="pricing-price">
+            <span class="text-4xl font-black text-white">699</span>
+            <span class="text-purple-200 text-sm">جنيه / شهر</span>
+          </div>
+        </div>
+        <ul class="pricing-features text-white">
+          <li><i class="fas fa-check text-green-300 ml-2"></i>3 مواد</li>
+          <li><i class="fas fa-check text-green-300 ml-2"></i>حصص غير محدودة</li>
+          <li><i class="fas fa-check text-green-300 ml-2"></i>ملازم + فيديوهات</li>
+          <li><i class="fas fa-check text-green-300 ml-2"></i>امتحانات تجريبية</li>
+          <li><i class="fas fa-times text-red-300 ml-2"></i>دعم مباشر</li>
+        </ul>
+        <button onclick="showToast('تم إرسال طلبك بنجاح!','success')" class="btn-white w-full mt-6">اشترك الآن</button>
+      </div>
+      <div class="pricing-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="pricing-header">
+          <h3 class="text-lg font-bold mb-1">الشاملة</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400">لأعلى النتائج</p>
+          <div class="pricing-price">
+            <span class="text-4xl font-black">1299</span>
+            <span class="text-gray-500 text-sm">جنيه / شهر</span>
+          </div>
+        </div>
+        <ul class="pricing-features">
+          <li><i class="fas fa-check text-green-500 ml-2"></i>جميع المواد</li>
+          <li><i class="fas fa-check text-green-500 ml-2"></i>حصص غير محدودة</li>
+          <li><i class="fas fa-check text-green-500 ml-2"></i>كل المواد التعليمية</li>
+          <li><i class="fas fa-check text-green-500 ml-2"></i>امتحانات تجريبية</li>
+          <li><i class="fas fa-check text-green-500 ml-2"></i>دعم مباشر 24/7</li>
+        </ul>
+        <button onclick="showToast('تم إرسال طلبك بنجاح!','success')" class="btn-primary w-full mt-6">اشترك الآن</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-20">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-badge">الأسئلة الشائعة</span>
+      <h2 class="section-title">أسئلة يسألها الجميع</h2>
+    </div>
+    <div class="mt-12 space-y-4" id="faq-container">
+      <div class="faq-item" data-aos="fade-up" data-aos-delay="0">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>كيف يمكنني التسجيل في الأكاديمية؟</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          <p>يمكنك التسجيل بسهولة من خلال الضغط على زر "ابدأ الآن" واتباع خطوات التسجيل البسيطة. سيتواصل معك فريقنا خلال 24 ساعة لتأكيد التسجيل.</p>
+        </div>
+      </div>
+      <div class="faq-item" data-aos="fade-up" data-aos-delay="50">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>هل الحصص أونلاين أم حضورية؟</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          <p>نقدم كلا الخيارين! يمكنك حضور الحصص أونلاين مباشرة أو حضورياً في فروعنا. كما يمكنك مشاهدة التسجيلات لاحقاً.</p>
+        </div>
+      </div>
+      <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>ما هي المراحل الدراسية المتاحة؟</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          <p>نغطي جميع صفوف المرحلة الثانوية: الأول والثاني والثالث الثانوي، بما في ذلك نظام الثانوية العامة ونظام الـ IGCSE.</p>
+        </div>
+      </div>
+      <div class="faq-item" data-aos="fade-up" data-aos-delay="150">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>هل يمكن استرداد المبلغ إذا لم أكن راضياً؟</span>
+          <i class="fas fa-chevron-down faq-icon"></i>
+        </button>
+        <div class="faq-answer">
+          <p>نعم! نضمن رضاك التام. إذا لم تكن راضياً خلال أول 7 أيام، سنسترد لك المبلغ كاملاً بدون أي شروط.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 relative overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600"></div>
+  <div class="absolute inset-0 opacity-20" style="background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22none%22 stroke=%22white%22 stroke-width=%220.5%22/></svg>');background-size:80px"></div>
+  <div class="relative max-w-4xl mx-auto px-4 text-center" data-aos="fade-up">
+    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-6">جاهز تبدأ رحلتك؟</h2>
+    <p class="text-purple-100 text-lg mb-8">انضم لأكثر من 5000 طالب يحققون أحلامهم مع أكاديمية النخبة</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="courses.html" class="btn-white text-base px-8 py-4">استعرض الكورسات</a>
+      <a href="contact.html" class="border-2 border-white text-white hover:bg-white hover:text-purple-600 transition-all duration-300 rounded-xl px-8 py-4 font-semibold text-base">تواصل معنا</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 dark:bg-gray-950 text-white py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
+            <i class="fas fa-graduation-cap text-white"></i>
+          </div>
+          <span class="text-xl font-black">أكاديمية النخبة</span>
+        </div>
+        <p class="text-gray-400 text-sm leading-relaxed mb-4">المنصة التعليمية الأولى لطلاب الثانوية في مصر. نحن نؤمن بأن كل طالب يستحق أفضل تعليم.</p>
+        <div class="flex gap-3">
+          <a href="#" class="footer-social"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="footer-social"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="footer-social"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="footer-social"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-bold mb-4 text-white">روابط سريعة</h4>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li><a href="courses.html" class="hover:text-purple-400 transition-colors">الكورسات</a></li>
+          <li><a href="teachers.html" class="hover:text-purple-400 transition-colors">المدرسين</a></li>
+          <li><a href="exams.html" class="hover:text-purple-400 transition-colors">الامتحانات</a></li>
+          <li><a href="library.html" class="hover:text-purple-400 transition-colors">المكتبة</a></li>
+          <li><a href="contact.html" class="hover:text-purple-400 transition-colors">تواصل معنا</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-4 text-white">المواد الدراسية</h4>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li><a href="#" class="hover:text-purple-400 transition-colors">الرياضيات</a></li>
+          <li><a href="#" class="hover:text-purple-400 transition-colors">الفيزياء</a></li>
+          <li><a href="#" class="hover:text-purple-400 transition-colors">الكيمياء</a></li>
+          <li><a href="#" class="hover:text-purple-400 transition-colors">الأحياء</a></li>
+          <li><a href="#" class="hover:text-purple-400 transition-colors">اللغة العربية</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold mb-4 text-white">تواصل معنا</h4>
+        <ul class="space-y-3 text-sm text-gray-400">
+          <li class="flex items-center gap-2"><i class="fas fa-phone text-purple-400"></i> 01000000000</li>
+          <li class="flex items-center gap-2"><i class="fas fa-envelope text-purple-400"></i> info@elitacademy.com</li>
+          <li class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-purple-400"></i> القاهرة، مصر</li>
+        </ul>
+        <a href="https://wa.me/201000000000" class="mt-4 inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors">
+          <i class="fab fa-whatsapp"></i> واتساب
+        </a>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+      <p>© 2025 أكاديمية النخبة. جميع الحقوق محفوظة.</p>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-purple-400 transition-colors">سياسة الخصوصية</a>
+        <a href="#" class="hover:text-purple-400 transition-colors">الشروط والأحكام</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>

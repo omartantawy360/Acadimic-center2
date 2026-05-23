@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الامتحانات - أكاديمية النخبة</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script>tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{cairo:['Cairo','sans-serif']}}}}</script>
+</head>
+<body class="font-cairo bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white transition-colors duration-300">
+<div id="loading-screen" class="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900">
+  <div class="w-12 h-12 mx-auto relative"><div class="absolute inset-1 rounded-full border-4 border-t-purple-400 border-r-transparent border-b-transparent border-l-transparent animate-spin"></div></div>
+</div>
+<div id="toast-container" class="fixed top-4 left-4 z-[9998] flex flex-col gap-2"></div>
+
+<!-- Result Modal -->
+<div id="result-modal" class="modal-overlay">
+  <div class="modal-box text-center">
+    <div id="result-icon" class="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center text-3xl"></div>
+    <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-2" id="result-title"></h2>
+    <p class="text-gray-500 dark:text-gray-400 mb-4" id="result-desc"></p>
+    <div class="text-5xl font-black mb-2" id="result-score"></div>
+    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6" id="result-detail"></p>
+    <div class="flex gap-3">
+      <button onclick="restartExam()" class="btn-primary flex-1">إعادة الامتحان</button>
+      <button onclick="closeModal('result-modal')" class="btn-secondary flex-1">إغلاق</button>
+    </div>
+  </div>
+</div>
+
+<nav id="navbar" class="fixed top-0 right-0 left-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-20">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center shadow-lg"><i class="fas fa-graduation-cap text-white text-lg"></i></div>
+        <div><span class="text-lg font-black text-gray-900 dark:text-white">أكاديمية</span><span class="text-lg font-black bg-gradient-to-r from-purple-600 to-blue-500 bg-clip-text text-transparent"> النخبة</span></div>
+      </a>
+      <div class="hidden lg:flex items-center gap-1">
+        <a href="index.html" class="nav-link">الرئيسية</a>
+        <a href="courses.html" class="nav-link">الكورسات</a>
+        <a href="teachers.html" class="nav-link">المدرسين</a>
+        <a href="exams.html" class="nav-link active">الامتحانات</a>
+        <a href="library.html" class="nav-link">المكتبة</a>
+        <a href="contact.html" class="nav-link">تواصل معنا</a>
+      </div>
+      <div class="hidden lg:flex items-center gap-3">
+        <button id="theme-toggle" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center hover:scale-110 transition-transform">
+          <i class="fas fa-moon text-gray-600 dark:text-yellow-400 dark:hidden"></i>
+          <i class="fas fa-sun text-yellow-400 hidden dark:block"></i>
+        </button>
+        <a href="dashboard.html" class="btn-secondary text-sm">لوحة الطالب</a>
+      </div>
+      <div class="flex lg:hidden items-center gap-2">
+        <button id="theme-toggle-mobile" class="w-9 h-9 rounded-lg glass-card flex items-center justify-center">
+          <i class="fas fa-moon text-gray-600 dark:text-yellow-400 dark:hidden text-sm"></i>
+          <i class="fas fa-sun text-yellow-400 hidden dark:block text-sm"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Exam Selection -->
+<div id="exam-selection" class="pt-28 pb-12 min-h-screen">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-10">
+      <span class="section-badge">الامتحانات التجريبية</span>
+      <h1 class="text-4xl font-black mt-3 mb-3 gradient-text">اختبر معلوماتك</h1>
+      <p class="text-gray-600 dark:text-gray-300">اختر المادة وابدأ الامتحان التجريبي</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <button onclick="startExam('math')" class="exam-select-card group">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white text-2xl mb-3 group-hover:scale-110 transition-transform"><i class="fas fa-square-root-alt"></i></div>
+        <h3 class="font-black text-gray-900 dark:text-white mb-1">الرياضيات</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">10 أسئلة • 20 دقيقة</p>
+        <div class="mt-3 flex items-center gap-2 text-xs text-purple-600 dark:text-purple-400 font-bold"><i class="fas fa-play-circle"></i> ابدأ الامتحان</div>
+      </button>
+      <button onclick="startExam('physics')" class="exam-select-card group">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white text-2xl mb-3 group-hover:scale-110 transition-transform"><i class="fas fa-atom"></i></div>
+        <h3 class="font-black text-gray-900 dark:text-white mb-1">الفيزياء</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">10 أسئلة • 20 دقيقة</p>
+        <div class="mt-3 flex items-center gap-2 text-xs text-blue-600 dark:text-blue-400 font-bold"><i class="fas fa-play-circle"></i> ابدأ الامتحان</div>
+      </button>
+      <button onclick="startExam('chemistry')" class="exam-select-card group">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center text-white text-2xl mb-3 group-hover:scale-110 transition-transform"><i class="fas fa-flask"></i></div>
+        <h3 class="font-black text-gray-900 dark:text-white mb-1">الكيمياء</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400">10 أسئلة • 20 دقيقة</p>
+        <div class="mt-3 flex items-center gap-2 text-xs text-green-600 dark:text-green-400 font-bold"><i class="fas fa-play-circle"></i> ابدأ الامتحان</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Exam UI -->
+<div id="exam-ui" class="hidden pt-20 min-h-screen">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Exam Header -->
+    <div class="widget-card mb-6">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <h2 class="font-black text-gray-900 dark:text-white" id="exam-title">امتحان الرياضيات</h2>
+          <p class="text-sm text-gray-500 dark:text-gray-400" id="exam-subtitle">الثالث الثانوي</p>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-black text-purple-600" id="timer">20:00</div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">الوقت المتبقي</div>
+        </div>
+      </div>
+      <!-- Progress -->
+      <div class="flex items-center gap-3">
+        <span class="text-xs text-gray-500 dark:text-gray-400 font-medium" id="q-progress">السؤال 1 من 10</span>
+        <div class="flex-1 progress-bar"><div class="progress-fill" id="exam-progress-fill" style="width:10%"></div></div>
+        <span class="text-xs font-bold text-purple-600" id="q-pct">10%</span>
+      </div>
+    </div>
+
+    <!-- Question Navigation -->
+    <div class="flex flex-wrap gap-2 mb-6" id="q-nav"></div>
+
+    <!-- Question Card -->
+    <div class="widget-card mb-6">
+      <div class="flex items-start gap-3 mb-6">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white text-sm font-bold flex-shrink-0" id="q-num">1</div>
+        <p class="text-gray-900 dark:text-white font-semibold leading-relaxed" id="q-text"></p>
+      </div>
+      <div class="space-y-3" id="q-options"></div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="flex items-center justify-between">
+      <button onclick="prevQuestion()" id="btn-prev" class="btn-secondary" disabled>
+        <i class="fas fa-chevron-right ml-2"></i> السابق
+      </button>
+      <button onclick="nextQuestion()" id="btn-next" class="btn-primary">
+        التالي <i class="fas fa-chevron-left mr-2"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/exams.js"></script>
+</body>
+</html>
